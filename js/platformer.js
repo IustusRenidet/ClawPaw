@@ -10,7 +10,8 @@ import {
 const KEYSET = {
   left: new Set(["ArrowLeft", "a", "A"]),
   right: new Set(["ArrowRight", "d", "D"]),
-  jump: new Set(["ArrowUp", "w", "W", " "])
+  jump: new Set(["ArrowUp", "w", "W", " "]),
+  assist: new Set(["b", "B"])
 };
 
 function catFallback(ctx, player) {
@@ -51,7 +52,7 @@ export function createPlatformer({
 }) {
   const ctx = canvas.getContext("2d");
   const world = {
-    width: 3000,
+    width: 1900,
     height: 540,
     groundY: 470
   };
@@ -67,9 +68,9 @@ export function createPlatformer({
   const catImage = new Image();
   catImage.src = imageSrc;
 
-  const keys = { left: false, right: false, jump: false };
+  const keys = { left: false, right: false, jump: false, assist: false };
   const virtual = { left: false, right: false, jump: false };
-  const checkpoints = [82, 630, 1320, 2070];
+  const checkpoints = [82, 420, 940, 1420];
 
   const player = {
     x: 82,
@@ -94,28 +95,24 @@ export function createPlatformer({
     return [
       { x: 0, y: 468, w: world.width, h: 84, ground: true },
       { x: 0, y: 438, w: 360, h: 36 },
-      { x: 435, y: 392, w: 160, h: 30 },
-      { x: 640, y: 348, w: 150, h: 26 },
-      { x: 835, y: 304, w: 150, h: 24 },
-      { x: 1010, y: 352, w: 188, h: 26 },
-      { x: 1242, y: 296, w: 170, h: 26, collectibleHint: true },
-      { x: 1452, y: 364, w: 170, h: 28 },
-      { x: 1675, y: 312, w: 170, h: 28, moving: true, baseX: 1675, range: 84, speed: 1.6, dx: 0 },
-      { x: 1912, y: 270, w: 160, h: 24 },
-      { x: 2146, y: 332, w: 180, h: 26 },
-      { x: 2390, y: 296, w: 185, h: 26, moving: true, baseX: 2390, range: 70, speed: 1.2, dx: 0 },
-      { x: 2620, y: 362, w: 180, h: 26 },
-      { x: 2825, y: 424, w: 175, h: 30 }
+      { x: 360, y: 392, w: 150, h: 30 },
+      { x: 560, y: 348, w: 150, h: 26 },
+      { x: 760, y: 312, w: 150, h: 24 },
+      { x: 980, y: 352, w: 188, h: 26 },
+      { x: 1160, y: 296, w: 170, h: 26, collectibleHint: true },
+      { x: 1360, y: 350, w: 160, h: 28, moving: true, baseX: 1360, range: 54, speed: 1.4, dx: 0 },
+      { x: 1540, y: 304, w: 160, h: 24 },
+      { x: 1710, y: 424, w: 190, h: 30 }
     ];
   }
 
   function buildHearts() {
     return [
       { x: 515, y: 346, collected: false },
-      { x: 715, y: 302, collected: false },
-      { x: 1290, y: 250, collected: false },
-      { x: 1775, y: 262, collected: false },
-      { x: 2470, y: 246, collected: false }
+      { x: 705, y: 302, collected: false },
+      { x: 1180, y: 250, collected: false },
+      { x: 1445, y: 300, collected: false },
+      { x: 1695, y: 250, collected: false }
     ];
   }
 
@@ -199,7 +196,13 @@ export function createPlatformer({
     if (KEYSET.left.has(event.key)) keys.left = true;
     if (KEYSET.right.has(event.key)) keys.right = true;
     if (KEYSET.jump.has(event.key)) keys.jump = true;
-    if (KEYSET.left.has(event.key) || KEYSET.right.has(event.key) || KEYSET.jump.has(event.key)) {
+    if (KEYSET.assist.has(event.key)) keys.assist = true;
+    if (
+      KEYSET.left.has(event.key) ||
+      KEYSET.right.has(event.key) ||
+      KEYSET.jump.has(event.key) ||
+      KEYSET.assist.has(event.key)
+    ) {
       event.preventDefault();
     }
   };
@@ -208,6 +211,7 @@ export function createPlatformer({
     if (KEYSET.left.has(event.key)) keys.left = false;
     if (KEYSET.right.has(event.key)) keys.right = false;
     if (KEYSET.jump.has(event.key)) keys.jump = false;
+    if (KEYSET.assist.has(event.key)) keys.assist = false;
   };
 
   window.addEventListener("keydown", handleKeyDown);
@@ -215,6 +219,16 @@ export function createPlatformer({
 
   function update(dt) {
     if (!active || completed) return;
+    if (keys.assist) {
+      keys.assist = false;
+      completed = true;
+      active = false;
+      setMessage("Lo lograste. El portal se abre.");
+      if (typeof onComplete === "function") {
+        onComplete({ collected, total: totalHearts, deaths });
+      }
+      return;
+    }
     const step = Math.min(0.04, dt);
     elapsed += step;
     portal.pulse += step * 2.2;
@@ -246,6 +260,7 @@ export function createPlatformer({
     player.x += player.vx * step;
 
     for (const platform of platforms) {
+      if (!platform.ground) continue;
       const a = getRect(player);
       const b = getRect(platform);
       if (!rectsOverlap(a, b)) continue;
@@ -272,12 +287,12 @@ export function createPlatformer({
         player.vy = 0;
         player.onGround = true;
         standingPlatform = platform;
-      } else if (prevY >= platform.y + platform.h - 6 && player.vy < 0) {
+      } else if (platform.ground && prevY >= platform.y + platform.h - 6 && player.vy < 0) {
         player.y = platform.y + platform.h;
         player.vy = 40;
-      } else if (player.x + player.w / 2 < platform.x + platform.w / 2) {
+      } else if (platform.ground && player.x + player.w / 2 < platform.x + platform.w / 2) {
         player.x = platform.x - player.w;
-      } else {
+      } else if (platform.ground) {
         player.x = platform.x + platform.w;
       }
     }
@@ -423,6 +438,7 @@ export function createPlatformer({
     keys.left = false;
     keys.right = false;
     keys.jump = false;
+    keys.assist = false;
     virtual.left = false;
     virtual.right = false;
     virtual.jump = false;

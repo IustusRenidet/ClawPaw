@@ -236,6 +236,15 @@ button.secondary {
   font-weight: 800;
 }
 
+.final-panel .final-message {
+  margin: 0;
+  max-width: 70ch;
+  color: var(--heart-soft);
+  font-size: clamp(1rem, 1.8vw, 1.35rem);
+  line-height: 1.45;
+  font-weight: 700;
+}
+
 .final-panel .infinity {
   margin: 0;
   font-size: clamp(2rem, 5vw, 4.2rem);

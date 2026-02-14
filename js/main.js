@@ -57,7 +57,7 @@ const platformer = createPlatformer({
   onComplete: () => {
     gameState.platformerDone = true;
     ui.platformerMessage.textContent = "Sophiau llego al portal. Excelente.";
-    window.setTimeout(() => setScene(SCENES.TRANSITION_2), 900);
+    setScene(SCENES.TRANSITION_2);
   }
 });
 
@@ -78,7 +78,7 @@ const symbols = createSymbolsGame({
   onComplete: () => {
     gameState.symbolsDone = true;
     ui.symbolsFeedback.textContent = "Los portales responden a su magia.";
-    window.setTimeout(() => setScene(SCENES.TRANSITION_3), 900);
+    setScene(SCENES.TRANSITION_3);
   }
 });
 

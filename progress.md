@@ -21,4 +21,19 @@ Original prompt: C:\Users\Frida Sophia\Desktop\DESARROLLOS\ClawPaw\proyecto-soph
   - Atajos `Enter` para avanzar escenas narrativas (sin saltar minijuegos).
   - Tolerancia extra en simbolos para trazos cortos repetidos.
   - Se agrego piso base continuo en platformer para facilitar completado sin frustracion.
-- Pendiente: correr test loop con Playwright client del skill y corregir hallazgos visuales/controles.
+- Se redujo el largo del nivel platformer para ritmo mas rapido y se ajustaron plataformas/corazones.
+- Se agrego atajo de accesibilidad `B`:
+  - En platformer completa el nivel actual.
+  - En simbolos completa la secuencia.
+- Pruebas ejecutadas:
+  - `powershell -ExecutionPolicy Bypass -File .\run-webgame-tests.ps1`
+  - Artefactos skill: `output/web-game/platformer`, `output/web-game/symbols`, `output/web-game/full`
+  - Estados validados:
+    - Transition 2 con `platformerDone=true`
+    - Symbols screen activo
+    - Final screen con `platformerDone=true` y `symbolsDone=true`
+- Verificacion visual adicional full-page:
+  - `node scripts/capture-scenes.mjs`
+  - Capturas: `output/manual/platformer-page.png`, `output/manual/symbols-page.png`, `output/manual/final-page.png`
+- TODOs para siguiente agente:
+  - Opcional: reemplazar atajos `B` por modo asistido visible en UI si se desea evitar shortcuts ocultos.

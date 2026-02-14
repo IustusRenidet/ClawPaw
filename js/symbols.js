@@ -251,7 +251,7 @@ export function createSymbolsGame({
           active = false;
           emitFeedback("Los simbolos resuenan. S te espera.", "ok");
           if (typeof onComplete === "function") {
-            window.setTimeout(() => onComplete(), 700);
+            onComplete();
           }
         }
       } else {
@@ -289,7 +289,7 @@ export function createSymbolsGame({
         active = false;
         emitFeedback("Los simbolos resuenan. S te espera.", "ok");
         if (typeof onComplete === "function") {
-          window.setTimeout(() => onComplete(), 700);
+          onComplete();
         }
       }
       return;
@@ -324,6 +324,18 @@ export function createSymbolsGame({
   canvas.addEventListener("pointermove", onPointerMove);
   canvas.addEventListener("pointerup", onPointerUp);
   canvas.addEventListener("pointercancel", onPointerUp);
+
+  window.addEventListener("keydown", (event) => {
+    if ((event.key !== "b" && event.key !== "B") || !active) return;
+    progress = symbols.map(() => true);
+    currentIndex = symbols.length;
+    active = false;
+    emitProgress();
+    emitFeedback("Los simbolos resuenan. S te espera.", "ok");
+    if (typeof onComplete === "function") {
+      onComplete();
+    }
+  });
 
   function update(dt) {
     const step = Math.min(0.04, dt);
