@@ -1,0 +1,24 @@
+Original prompt: C:\Users\Frida Sophia\Desktop\DESARROLLOS\ClawPaw\proyecto-sophiau-miauricio.md lee esta informacion y sigue las instrucciones, usa node.js
+
+- Se creo base Node.js con `package.json` y `server.js` (servidor estatico con soporte de Range para videos mp4).
+- Se copiaron assets originales a rutas estables:
+  - `assets/videos/parte_inicio.mp4`
+  - `assets/videos/parte_fin.mp4`
+  - `assets/images/gato_negro.png`
+  - `assets/images/gato_vaca.png`
+- Se implemento la experiencia completa con flujo lineal obligatorio:
+  - `index.html`
+  - `css/styles.css`
+  - `js/main.js`
+  - `js/platformer.js`
+  - `js/symbols.js`
+  - `js/utils.js`
+- Se agregaron hooks para pruebas automatizadas:
+  - `window.render_game_to_text`
+  - `window.advanceTime`
+- Ajustes previos a testing:
+  - Correccion en velocidad horizontal del platformer.
+  - Atajos `Enter` para avanzar escenas narrativas (sin saltar minijuegos).
+  - Tolerancia extra en simbolos para trazos cortos repetidos.
+  - Se agrego piso base continuo en platformer para facilitar completado sin frustracion.
+- Pendiente: correr test loop con Playwright client del skill y corregir hallazgos visuales/controles.

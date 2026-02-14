@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>A Traves de las Dimensiones - S & M</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <main id="app">
+      <section id="title-screen" class="scene active">
+        <div class="panel title-panel">
+          <p class="eyebrow">San Valentin Interactivo</p>
+          <h1>A Traves de las Dimensiones</h1>
+          <p class="subtitle">Una aventura de Sophiau y Miauricio</p>
+          <button id="start-adventure">Comenzar</button>
+        </div>
+      </section>
+
+      <section id="intro-video-screen" class="scene">
+        <div class="panel video-panel">
+          <h2>Cutscene Inicial</h2>
+          <video id="intro-video" playsinline preload="auto" controls>
+            <source src="assets/videos/parte_inicio.mp4" type="video/mp4" />
+          </video>
+          <p id="intro-status" class="status-text">
+            Los portales se estan formando...
+          </p>
+          <button id="intro-fallback-btn" class="secondary hidden">Continuar sin video</button>
+        </div>
+      </section>
+
+      <section id="transition-1-screen" class="scene">
+        <div class="panel narrative-panel">
+          <h2>Sophiau entra al portal cosmico</h2>
+          <p>
+            Sophiau cae hacia el vacio cosmico. Debe atravesar las plataformas
+            dimensionales para llegar al portal de reunion.
+          </p>
+          <button id="to-platformer-btn">Adelante</button>
+        </div>
+      </section>
+
+      <section id="platformer-screen" class="scene">
+        <div class="panel game-panel">
+          <div class="hud-row">
+            <span id="platformer-hearts">Corazones: 0</span>
+            <span id="platformer-message">M te espera... no te rindas.</span>
+          </div>
+          <canvas id="platformer-canvas" width="960" height="540" aria-label="Minijuego platformer de Sophiau"></canvas>
+          <div class="hud-row compact">
+            <button id="platformer-reset" class="secondary">Reiniciar tramo</button>
+            <span class="controls-note">Mover: Flechas o A/D. Saltar: Espacio.</span>
+          </div>
+          <div id="platformer-touch" class="touch-controls" aria-label="Controles tactiles">
+            <button data-control="left">Izq</button>
+            <button data-control="jump">Saltar</button>
+            <button data-control="right">Der</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="transition-2-screen" class="scene">
+        <div class="panel narrative-panel">
+          <h2>Sophiau ya llego al portal</h2>
+          <p>
+            Ahora Miauricio debe abrir el camino desde el otro lado.
+            Dibuja los simbolos del amor para completar la reunion.
+          </p>
+          <button id="to-symbols-btn">Continuar</button>
+        </div>
+      </section>
+
+      <section id="symbols-screen" class="scene">
+        <div class="panel game-panel">
+          <div class="hud-row">
+            <span id="symbols-current">Simbolo: Corazon</span>
+            <span id="symbols-progress">Progreso: 0 / 4</span>
+          </div>
+          <canvas id="symbols-canvas" width="960" height="540" aria-label="Minijuego de simbolos magicos"></canvas>
+          <div class="hud-row compact">
+            <button id="symbols-clear" class="secondary">Limpiar trazo</button>
+            <span id="symbols-feedback">Dibuja el simbolo guia para abrir el portal.</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="transition-3-screen" class="scene">
+        <div class="panel narrative-panel">
+          <h2>Los portales resuenan</h2>
+          <p>
+            La magia esta completa. Ambos portales ya vibran en sintonia.
+            Es momento del reencuentro.
+          </p>
+          <button id="to-outro-btn">Ver reunion</button>
+        </div>
+      </section>
+
+      <section id="outro-video-screen" class="scene">
+        <div class="panel video-panel">
+          <h2>Cutscene Final</h2>
+          <video id="outro-video" playsinline preload="auto" controls>
+            <source src="assets/videos/parte_fin.mp4" type="video/mp4" />
+          </video>
+          <p id="outro-status" class="status-text">
+            Los portales se fusionan en un solo corazon...
+          </p>
+          <button id="outro-fallback-btn" class="secondary hidden">Continuar sin video</button>
+        </div>
+      </section>
+
+      <section id="final-screen" class="scene">
+        <div class="panel final-panel">
+          <h2>Juntos, a traves de cualquier dimension</h2>
+          <p class="big">S & M</p>
+          <p class="infinity">&infin;</p>
+          <p class="love">Te amo</p>
+          <button id="replay-btn">Volver a jugar</button>
+        </div>
+      </section>
+    </main>
+    <script type="module" src="js/main.js"></script>
+  </body>
+</html>
